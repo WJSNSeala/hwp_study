@@ -143,6 +143,45 @@ Header에 존재하는 Number of Big Block Allocation Table Depot -> 이 숫자 
  다음 프로퍼티가 존재하지 않는다면 0xffff ffff
  있다면 다음 프로퍼티의 번호 저장.  
  
- ####
+ #### Directory Property
+ 76 ~ 79 : 0x4C ~ 0x4F   
+ 하위 프로퍼티가 번호로 저장되어 있다. -> 현재의 프로퍼티는 스토리지라는 의미, 하위 프로퍼티가 없거나 해당 프로퍼티가 스트림이면 0xffffffff  
+ 
+ ```
+ Root entry의 값
+ FF FF FF FF
+ FF FF FF FF
+ 04 00 00 00 
+ ```
+ Root는 가장 최상위기 때문에 이전과 다음 프로퍼티가 없음 -> 오직 하위 프로퍼티만 가짐  
+ Directory Property 값이 3이기 때문에 3번 Property가 하위 프로퍼티이다.
+ Entry chain의 순서가 번호.  
+ 
+ ```
+ Body Text의 값
+ 02 00 00 00 
+ 01 00 00 00 
+ 38 00 00 00
+ ```
+ #### Starting block of Property
+ 116 ~ 119 : 0x74 ~ 0x77  
+ 프로퍼티의 타입이 스토리지인 경우 0  
+ 프로퍼티의 실제 데이터가 기록된 블록 번호가 기록되어 있다.  
+ 이후의 데이터는 Big/Small Block Allocation Table을 참조하여 링크를 따라하게 된다.
+ 
+ #### Size of Property 
+ 120 ~ 123 : 0x78 ~ 0x7B  
+ 스토리지인 경우 0  
+ 타입이 스트림인 경우 데이터의 그기가 저장.  
+ 
+ 0x1000보다 크면 해당 Property는 Big Block Allocation  table을 참조하여 링크 구조를 생성.  
+ 
+ ```
+ 08 00 00 00  : starting block of Property
+ 00 78 00 00 : size of block
+ ```
+ size 가 0x1000을 넘기 때문에 BBAT를 바탕으로 식별
+ BBAT의 Entry중 0x8번째를 시작으로 0xffff fffe까지 chain 식별  
+ 각 entry의 블록에서 512byte씩 합쳐서 읽음 -> 합쳐진 block size를 이용하여 조절.
  
  
