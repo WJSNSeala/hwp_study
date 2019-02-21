@@ -110,4 +110,8 @@ Header에 존재하는 Number of Big Block Allocation Table Depot -> 이 숫자 
  0xFFFFFFFE ( -2 ) : chain의 끝을 의미  
  0xFFFFFFFF ( - 1 ) : 사용하지 않는 블록을 의미  
  
+ ### 주요 항목
+ 각 블록에는 최대 4개의 property가 있다.  
+ 1개의 property 정보는 0x80크기로 구성
  
+ #### 
