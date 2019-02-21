@@ -35,4 +35,20 @@ OLE 파일 내부는 작은 파일 시스템과 같다.
 이들의 정보를 담고 있는 곳이 바로 property 영역임  
 이 정보를 가진 블록의 시작 값을 담고 있다.  
 
-#### 
+#### Start block of Small Block Allocation Table
+60~63 : 0x3C ~ 0x3F   
+SBAT의 시작 위치.   
+
+#### Number of Small Block Allocation Table Depot
+64~ 67 : 0x40 ~  0x43  
+SBAT를 보관하고 있는 저장소의 개수   
+
+#### Array of Big Block Allocation Table Depot members
+76 : 0x4c ~
+Big Block Allocation Table을 가진 Depot의 실제 값들을 저장한 배열   
+
+
+### Big Block Allocation
+Big Block Allocation Table(BBAT)는 OLE내부의 스트림의 위치정보를 저장하고 있으며 모두 링크 구조로 연결.   
+BBAT Depot은 BBAT가 저장된 저장소를 의미한다.   
+
